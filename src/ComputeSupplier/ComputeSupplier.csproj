@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <GameDir Condition="'$(GameDir)' == ''">$(MSBuildProgramFiles32)\Steam\steamapps\common\Probably Stolen</GameDir>
+    <GameManaged>$(GameDir)\Probably Stolen_Data\Managed</GameManaged>
+    <ModDist>$(MSBuildProjectDirectory)\..\..\dist\ComputeSupplier</ModDist>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(GameManaged)\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(GameManaged)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>$(GameManaged)\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine" Condition="Exists('$(GameManaged)\UnityEngine.dll')">
+      <HintPath>$(GameManaged)\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI" Condition="Exists('$(GameManaged)\UnityEngine.UI.dll')">
+      <HintPath>$(GameManaged)\UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro" Condition="Exists('$(GameManaged)\Unity.TextMeshPro.dll')">
+      <HintPath>$(GameManaged)\Unity.TextMeshPro.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CheckGameAssemblies" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(GameManaged)\Assembly-CSharp.dll') Or !Exists('$(GameManaged)\UnityEngine.CoreModule.dll') Or !Exists('$(GameManaged)\UnityEngine.JSONSerializeModule.dll')"
+           Text="Game assemblies are missing in $(GameManaged). Set -p:GameDir to your Steam Probably Stolen installation directory." />
+  </Target>
+
+  <Target Name="StageComputeSupplier" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath);$(MSBuildProjectDirectory)\manifest.xml" DestinationFolder="$(ModDist)" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\Textures\Items\console.png" DestinationFolder="$(ModDist)\Textures\Items" />
+  </Target>
+</Project>

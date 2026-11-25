@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Manifest>
+  <ID>compute_supplier</ID>
+  <Name>算力供应商</Name>
+  <Author>ComputeSupplier</Author>
+  <ModVersion>0.1.0</ModVersion>
+  <Description>接下算力订单，用二手机架自营，或向游戏内供应商批发算力。按夜结算收入、电费和显卡磨损。</Description>
+  <GameVersions>
+    <Version>1.0.0</Version>
+  </GameVersions>
+  <Prerequisites />
+  <Assemblies>
+    <Assembly>ComputeSupplier.dll</Assembly>
+  </Assemblies>
+  <Capabilities />
+</Manifest>
